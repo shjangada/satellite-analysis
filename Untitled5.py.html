@@ -1,0 +1,86 @@
+#!/usr/bin/env python
+# coding: utf-8
+
+# In[23]:
+
+
+f = open('input.txt', 'r') 
+
+# i tried to make functions for finding x, opr, and y and then putting those functions in the operation function, but that didnt work
+
+nf = open('output.txt', 'w')
+nf.write("")
+nf.close()
+
+
+nf = open('output.txt', 'a')
+
+
+
+def operation():
+    
+    char = f.read(2)
+    x = int(char)
+
+    opr = f.read(3) 
+    
+    char = f.read(2)
+    y = int(char)
+
+    if opr == " + ":
+        result = x + y
+    elif opr == " - ":
+        result = x - y
+    elif opr == " * ": 
+        result = x * y
+    elif opr == " / ":
+        result = x / y
+    else:
+        print("there seems to be a mistake")
+    
+    nf.write(str(x))
+    nf.write(str(opr))
+    nf.write(str(y))
+    nf.write(" = ")
+    nf.write(str(result))
+    nf.write("\n")
+    
+count = 0
+while count < 8:
+    operation()
+    count += 1
+
+
+f.close()
+nf.close()
+
+
+nf = open("output.txt", "r")
+print(nf.read())
+
+nf.close()
+
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
+
+
