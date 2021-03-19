@@ -1,0 +1,30 @@
+#!/usr/bin/env python
+# coding: utf-8
+
+# In[19]:
+
+
+import glob
+
+for name in glob.glob('desktop/random/*.txt'):
+    print ('\t', name)
+
+
+# In[24]:
+
+
+import glob
+
+directory = input('Enter directory path: ')
+path = directory + '/*.txt'
+print(path)
+
+for name in glob.glob(path):
+    print ('\t', name)
+
+
+# In[ ]:
+
+
+
+
