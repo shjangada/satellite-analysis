@@ -1,0 +1,195 @@
+#!/usr/bin/env python
+# coding: utf-8
+
+# In[ ]:
+
+
+import h5py
+import scipy.interpolate as sc
+import numpy as np
+import matplotlib.pyplot as plt
+from mpl_toolkits.basemap import Basemap
+
+
+# In[ ]:
+
+
+import matplotlib
+matplotlib.__version__
+
+
+# In[ ]:
+
+
+# Open the data file obtained from the MERRA satellite
+file = h5py.File('MERRA2_400.tavgM_2d_chm_Nx.202006.nc4')
+
+# Read the carbon monoxide and latitude/longitude data into numpy arrays
+lat = np.array(file['lat'])
+lon = np.array(file['lon'])
+data = np.array(file['COEM'][0])
+print('Shapes of the arrays - lat:{}, lon:{}, data:{}'.format(lat.shape, lon.shape, data.shape))
+
+
+# In[ ]:
+
+
+numbers = (np.array(file['COEM'][0]))
+np.sum(numbers)
+
+
+# ### Read the carbon monoxide and latitude/longitude data into numpy arrays
+# lat = np.array(file['lat'])
+# lon = np.array(file['lon'])
+# data = np.array(file['COEM'][0])
+# print('Shapes of the arrays - lat:{}, lon:{}, data:{}'.format(lat.shape, lon.shape, data.shape))
+
+# In[ ]:
+
+
+# Plot the data on the world map
+plt.figure(figsize=(30, 10))
+worldmap = Basemap(llcrnrlon=-180,llcrnrlat=-90,urcrnrlon=180,urcrnrlat=90, resolution = 'l')
+worldmap.drawcountries()
+worldmap.drawcoastlines()
+worldmap.pcolormesh(lon, lat, data)
+plt.show()
+
+
+# In[ ]:
+
+
+plt.figure(figsize=(30, 10))
+worldmap = Basemap(llcrnrlon=-180,llcrnrlat=-90,urcrnrlon=180,urcrnrlat=90, resolution = 'l')
+worldmap.drawcountries()
+worldmap.drawcoastlines()
+worldmap.pcolormesh(lon, lat, data)
+
+# Control the background color
+worldmap.drawmapboundary(fill_color='#003366', linewidth=0)
+plt.show
+
+# Fill the continent
+worldmap.fillcontinents(color='green', alpha=0.7, lake_color='green')
+plt.show
+
+
+# In[ ]:
+
+
+def showAfrica():
+    # Filter out the data for Africa
+    africa_lat_indices = np.argwhere((lat < 40) & (lat > -40)) # Latitude bounds for Africa
+    africa_lon_indices = np.argwhere((lon < 60) & (lon > -20)) # Longitude bounds for Africa
+    africa_lat = lat[africa_lat_indices.ravel()]
+    africa_lon = lon[africa_lon_indices.ravel()]
+    africa_data = data[np.ix_(africa_lat_indices.ravel(), africa_lon_indices.ravel())]
+
+    # Plot the data on map centered on Africa
+    plt.figure(figsize=(30, 10))
+    africamap = Basemap(llcrnrlon=-20,llcrnrlat=-40,urcrnrlon=60,urcrnrlat=40, resolution = 'l')
+    africamap.drawcountries()
+    africamap.drawcoastlines()
+    africamap.pcolormesh(africa_lon, africa_lat, africa_data)
+    plt.show()
+    
+    africanumber = (africa_data)
+    print(np.sum(africanumber))
+
+
+# In[ ]:
+
+
+def showAmerica():
+    # Filter out the data for America
+    america_lat_indices = np.argwhere((lat < 52) & (lat > -23)) # Latitude bounds for Africa
+    america_lon_indices = np.argwhere((lon < 57) & (lon > -133)) # Longitude bounds for Africa
+    america_lat = lat[america_lat_indices.ravel()]
+    america_lon = lon[america_lon_indices.ravel()]
+    america_data = data[np.ix_(america_lat_indices.ravel(), america_lon_indices.ravel())]
+    
+    # Plot the data on map centered on America
+    plt.figure(figsize=(30, 10))
+    americamap = Basemap(llcrnrlon=-133,llcrnrlat=23,urcrnrlon=-57,urcrnrlat=52, resolution = 'l')
+    americamap.drawcountries()
+    americamap.drawcoastlines()
+    americamap.pcolormesh(america_lon, america_lat, america_data)
+    plt.show()
+    
+    americanumber = (america_data)
+    print(np.sum(america_data))
+
+
+# In[ ]:
+
+
+def showIndia():
+    # Filter out the data for America
+    india_lat_indices = np.argwhere((lat < 32) & (lat > 6)) # Latitude bounds for Africa
+    india_lon_indices = np.argwhere((lon < 95) & (lon > 65)) # Longitude bounds for Africa
+    india_lat = lat[india_lat_indices.ravel()]
+    india_lon = lon[india_lon_indices.ravel()]
+    india_data = data[np.ix_(india_lat_indices.ravel(), india_lon_indices.ravel())]
+    
+    # Plot the data on map centered on America
+    plt.figure(figsize=(30, 10))
+    indiamap = Basemap(llcrnrlon=65,llcrnrlat=6,urcrnrlon=95,urcrnrlat=32, resolution = 'l')
+    indiamap.drawcountries()
+    indiamap.drawcoastlines()
+    indiamap.pcolormesh(india_lon, india_lat, india_data)
+    plt.show()
+    
+    indianumber = (india_data)
+    print(np.sum(indianumber))
+
+
+# In[ ]:
+
+
+def showwhere():
+    
+    area = input("Which area do you want to see? 'Africa', 'America', or 'India'?")
+    
+    if area == "Africa":
+        showAfrica()
+        
+    elif area == "India":
+        showIndia()
+        
+    else:
+        showAmerica()
+
+
+# In[ ]:
+
+
+showwhere()
+
+
+# In[ ]:
+
+
+def showArea(latmin, latmax, lonmin, lonmax):
+    lat_indices = np.argwhere((lat < latmax) & (lat > latmin)) # Latitude bounds for Africa
+    lon_indices = np.argwhere((lon < lonmax) & (lon > lonmin)) # Longitude bounds for Africa
+    area_lat = lat[lat_indices.ravel()]
+    area_lon = lon[lon_indices.ravel()]
+    area_data = data[np.ix_(lat_indices.ravel(), lon_indices.ravel())]
+    
+    # Plot the data on map centered on Africa
+    plt.figure(figsize=(30, 10))
+    areamap = Basemap(llcrnrlon=lonmin,llcrnrlat=latmin,urcrnrlon=lonmax,urcrnrlat=latmax, resolution = 'l')
+    areamap.drawcountries()
+    areamap.drawcoastlines()
+    areamap.pcolormesh(area_lon, area_lat, area_data)
+    plt.show()
+    
+    areanumber = (area_data)
+    print(np.sum(areanumber))
+
+
+# In[ ]:
+
+
+showArea(1, 40, 3, 40)
+
