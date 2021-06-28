@@ -13,11 +13,11 @@ trap finish EXIT
 WGETRC="$wgetrc"
 
 prompt_credentials() {
-    echo "Enter your Earthdata Login or other provider supplied credentials"
-    read -p "Username (patil1pd): " username
-    username=${username:-patil1pd}
-    read -s -p "Password: " password
-    echo "machine urs.earthdata.nasa.gov login $username password $password" >> $netrc
+    # echo "Enter your Earthdata Login or other provider supplied credentials"
+    # read -p "Username (patil1pd): " username
+    # username=${username:-patil1pd}
+    # read -s -p "Password: " password
+    echo "machine urs.earthdata.nasa.gov login patil1pd password thePUNK#1" >> $netrc
     echo
 }
 
